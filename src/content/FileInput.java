@@ -6,6 +6,7 @@
 package content;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,13 +48,22 @@ public class FileInput {
      * @throws TikaException
      */
     public FileInput(String directory) throws IOException, SAXException, TikaException {
-        //gets the files 
-        File inputFile = new File("directory");
-        String[] files = inputFile.list();
 
-        //test
-        System.out.println("Array contents:  " + Arrays.toString(inputFile.listFiles()));
+        // The file selected by the user, will be the first to play in the queue
+        File selectedFile = new File(directory);
 
+        // Create a file object 
+        File baseUrl = new File(FilenameUtils.getPath(directory));
+
+        // Create a FileFilter 
+        FileFilter filter = (File f1) -> f1.getName().endsWith("mp3");
+
+        System.out.println("Dir Path: " + baseUrl.getAbsolutePath());
+
+        // Get all the names of the files present that are mp3
+//        File newFile = new File("C:\\Users\\Abdulrahman\\Documents\\1_Programming\\6_Desktop Apps\\mp3Player");
+//        File[] directoryFiles = newFile.listFiles(filter);
+        // 
         String fileextentiontmp = "";
 
         ContentHandler handler = new DefaultHandler();
@@ -62,7 +72,8 @@ public class FileInput {
         ParseContext parseCtx = new ParseContext();
 
         //load mp3 or wav audio files into the linked list
-        System.out.println(files[0].toString());
+//        System.out.println(directoryFiles[0].toString());
+        audioPlayer = new AudioPlayer(directory);
 
         // Adding entire directory to the queue
 //        for (int i = 0; i < files.length; i++) {
@@ -99,7 +110,9 @@ public class FileInput {
      * track
      */
     public void setPlayingTrack() {
-        audioPlayer = new AudioPlayer(filesList.get(currentlyPlayingIndex).getExtension());
+        //for linked list
+//        audioPlayer = new AudioPlayer(filesList.get(currentlyPlayingIndex).getExtension());
+
     }
 
     /**
